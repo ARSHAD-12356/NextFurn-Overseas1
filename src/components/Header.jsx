@@ -18,7 +18,6 @@ const PRODUCT_CATEGORIES = [
     href: '#office-furniture',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Office Chair icon */}
         <path d="M7 3h10v8a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3V3z" />
         <path d="M5 9h2" />
         <path d="M17 9h2" />
@@ -37,7 +36,6 @@ const PRODUCT_CATEGORIES = [
     href: '#school-furniture',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Graduation cap & book */}
         <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
         <path d="M6 12v5c3 3 9 3 12 0v-5" />
       </svg>
@@ -51,7 +49,6 @@ const PRODUCT_CATEGORIES = [
     href: '#hospital-furniture',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Hospital bed with medical cross */}
         <path d="M2 4v16" />
         <path d="M2 14h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H8" />
         <path d="M22 10v10" />
@@ -69,7 +66,6 @@ const PRODUCT_CATEGORIES = [
     href: '#hotel-furniture',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Luxury cloche / bed */}
         <path d="M3 17h18" />
         <path d="M4 17a8 8 0 0 1 16 0" />
         <path d="M12 9V6" />
@@ -85,7 +81,6 @@ const PRODUCT_CATEGORIES = [
     href: '#restaurant-furniture',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Dining table & chairs */}
         <path d="M8 21v-8a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v8" />
         <path d="M6 7h12" />
         <path d="M12 7v4" />
@@ -102,7 +97,6 @@ const PRODUCT_CATEGORIES = [
     href: '#training-furniture',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Seminar presentation screen and group */}
         <path d="M3 3h18v10H3z" />
         <path d="M12 13v5" />
         <path d="M8 21h8" />
@@ -118,7 +112,6 @@ const PRODUCT_CATEGORIES = [
     href: '#modular-workstations',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {/* Modular workstation pod */}
         <rect x="3" y="4" width="8" height="7" rx="1.5" />
         <rect x="13" y="4" width="8" height="7" rx="1.5" />
         <rect x="3" y="13" width="8" height="7" rx="1.5" />
@@ -129,26 +122,26 @@ const PRODUCT_CATEGORIES = [
 ];
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Product Category', href: '#products', isDropdown: true },
-  { label: 'Investor', href: '#investor' },
-  { label: 'Career', href: '#career' },
-  { label: 'Brochures', href: '#brochures' },
+  { label: 'HOME', href: '#home' },
+  { label: 'ABOUT US', href: '#about' },
+  { label: 'PRODUCT CATEGORY', href: '#products', isDropdown: true },
+  { label: 'INVESTOR', href: '#investor' },
+  { label: 'CAREER', href: '#career' },
+  { label: 'BROCHURES', href: '#brochures' },
 ];
 
 function ArrowRight() {
   return (
-    <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-      <path d="M4 12h15" />
-      <path d="m13.5 6.5 5.5 5.5-5.5 5.5" />
+    <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
     </svg>
   );
 }
 
 function ChevronDown({ className = '' }) {
   return (
-    <svg className={`chevron-icon ${className}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg className={`chevron-icon ${className}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="m6 9 6 6 6-6" />
     </svg>
   );
@@ -158,7 +151,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState(false);
-  const [active, setActive] = useState(NAV_LINKS[0].href);
+  const [active, setActive] = useState('#home');
   const [previewIndex, setPreviewIndex] = useState(0);
   const dropdownCloseTimeoutRef = useRef(null);
 
@@ -203,14 +196,13 @@ export default function Header() {
         <img src={logo} alt="NextFurn Overseas" width="2051" height="767" />
       </a>
 
-      <nav className="site-header__nav" aria-label="Primary">
+      <nav className="site-header__nav" aria-label="Primary Navigation">
         <ul>
           {NAV_LINKS.map((link) => {
             if (link.isDropdown) {
               return (
                 <li
                   key={link.label}
-                  data-anim="nav"
                   className={`nav-item--dropdown${dropdownOpen ? ' is-open' : ''}`}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -298,12 +290,14 @@ export default function Header() {
               );
             }
 
+            const isActive = active === link.href;
+
             return (
-              <li key={link.label} data-anim="nav">
+              <li key={link.label}>
                 <a
                   href={link.href}
-                  className={`nav-link${active === link.href ? ' is-active' : ''}`}
-                  aria-current={active === link.href ? 'true' : undefined}
+                  className={`nav-link${isActive ? ' is-active' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
                   onClick={() => setActive(link.href)}
                 >
                   {link.label}
@@ -314,33 +308,33 @@ export default function Header() {
         </ul>
       </nav>
 
-      {/* Cart and account entry points; there is no store backend yet, so they lead to the
-          product range and the enquiry form. */}
-      <div className="site-header__icons" data-anim="nav">
-        <a href="#products" className="site-header__icon" aria-label="Cart — browse products">
+      {/* Right controls: Shopping Cart, User Account, Contact Us button */}
+      <div className="site-header__actions">
+        <a href="#products" className="site-header__icon" aria-label="Shopping Cart">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M3 4h2.2l2.1 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H7" />
-            <circle cx="10" cy="19.5" r="1.3" />
-            <circle cx="17" cy="19.5" r="1.3" />
+            <circle cx="9" cy="20" r="1.3" />
+            <circle cx="18" cy="20" r="1.3" />
+            <path d="M1 1h4l2.4 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.5L22 6H5.4" />
           </svg>
         </a>
-        <a href="#contact" className="site-header__icon" aria-label="Account — contact our team">
+
+        <a href="#contact" className="site-header__icon" aria-label="Account">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="8.5" r="3.8" />
-            <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
+            <circle cx="12" cy="8" r="4" />
+            <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
           </svg>
+        </a>
+
+        <a href="#contact" className="site-header__contact">
+          <span>CONTACT US</span>
+          <ArrowRight />
         </a>
       </div>
 
-      <a href="#contact" className="site-header__contact" data-anim="nav">
-        <span>CONTACT US</span>
-        <ArrowRight />
-      </a>
-
+      {/* Mobile menu toggle */}
       <button
         type="button"
         className="site-header__toggle"
-        data-anim="nav"
         aria-expanded={menuOpen}
         aria-controls="mobile-menu"
         onClick={() => setMenuOpen((v) => !v)}
@@ -352,6 +346,7 @@ export default function Header() {
         </span>
       </button>
 
+      {/* Mobile Drawer Menu */}
       <div id="mobile-menu" className="mobile-menu" hidden={!menuOpen}>
         <ul className="mobile-menu__list">
           {NAV_LINKS.map((link, i) => {
@@ -390,7 +385,13 @@ export default function Header() {
 
             return (
               <li key={link.label} style={{ '--i': i }}>
-                <a href={link.href} onClick={close}>
+                <a
+                  href={link.href}
+                  onClick={() => {
+                    setActive(link.href);
+                    close();
+                  }}
+                >
                   {link.label}
                 </a>
               </li>
@@ -407,4 +408,3 @@ export default function Header() {
     </header>
   );
 }
-
