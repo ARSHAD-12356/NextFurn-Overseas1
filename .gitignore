@@ -22,3 +22,8 @@ Thumbs.db
 .claude/
 .vscode/
 .idea/
+
+# Generated output and local working files (not source code)
+release-dist/
+removed-brochures/
+scratch/
