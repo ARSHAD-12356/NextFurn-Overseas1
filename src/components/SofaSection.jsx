@@ -1,466 +1,578 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { slugify } from '../data/products.js';
+import { useWishlist } from '../context/WishlistContext.jsx';
 import '../styles/sofa-section.css';
 
-import imgHero from '../assets/sofas/sofa-hero.jpg';
+import imgRegalL from '../assets/sofas/pdf/regal-l.jpg';
+import imgZap2 from '../assets/sofas/pdf/zap-2.jpg';
+import imgErgo4 from '../assets/sofas/pdf/ergo-4.jpg';
+import imgAura3 from '../assets/sofas/pdf/aura-3.jpg';
 import imgDiplomat3 from '../assets/sofas/pdf/diplomat-3.jpg';
 import imgStephen3 from '../assets/sofas/pdf/stephen-3.jpg';
-import imgAura3 from '../assets/sofas/pdf/aura-3.jpg';
-import imgEquino3 from '../assets/sofas/pdf/equino-3.jpg';
 import imgRegal2 from '../assets/sofas/pdf/regal-2.jpg';
-import imgZap2 from '../assets/sofas/pdf/zap-2.jpg';
 import imgRosemount2 from '../assets/sofas/pdf/rosemount-2.jpg';
+import imgEquino3 from '../assets/sofas/pdf/equino-3.jpg';
 import imgColumbia2 from '../assets/sofas/pdf/columbia-2.jpg';
-import imgDiplomat1 from '../assets/sofas/pdf/diplomat-1.jpg';
-import imgErgo4 from '../assets/sofas/pdf/ergo-4.jpg';
-import imgZap1 from '../assets/sofas/pdf/zap-1.jpg';
-import imgColumbia1 from '../assets/sofas/pdf/columbia-1.jpg';
-import imgRegalL from '../assets/sofas/pdf/regal-l.jpg';
-import thumbAll from '../assets/sofas/pdf/thumb-diplomat-3.jpg';
-import thumbLShape from '../assets/sofas/pdf/thumb-regal-l.jpg';
-import thumbThree from '../assets/sofas/pdf/thumb-aura-3.jpg';
-import thumbTwo from '../assets/sofas/pdf/thumb-zap-2.jpg';
-import thumbSingle from '../assets/sofas/pdf/thumb-ergo-4.jpg';
+import imgBadaSofa from '../../Assets/bada sofa.png';
+import imgSofaCard1 from '../../Assets/Bestseller sofa/sofa card 1.png';
+import imgSofaCard2 from '../../Assets/Bestseller sofa/sofa card 2.png';
+import imgSofaCard3 from '../../Assets/Bestseller sofa/2 seater sofa.png';
+import imgSofaCard4 from '../../Assets/Bestseller sofa/sofa card 4.png';
 
-gsap.registerPlugin(ScrollTrigger);
+const SMALL_CARD_IMAGES = {
+  'stephen-3': imgSofaCard1,
+  'regal-2': imgSofaCard2,
+  'rosemount-2': imgSofaCard3,
+  'equino-3': imgSofaCard4,
+};
 
-// Categories as they appear in the NextFurn 2026 collection price list (sofa series)
-const CATEGORIES = [
-  { id: 'all', label: 'All Sofas', image: thumbAll },
-  { id: 'l-shape', label: 'L-Shape Sofas', image: thumbLShape },
-  { id: '3-seater', label: '3 Seater Sofas', image: thumbThree },
-  { id: '2-seater', label: '2 Seater Sofas', image: thumbTwo },
-  { id: '1-seater', label: 'Single Seater Sofas', image: thumbSingle },
+export const SOFA_PRODUCTS = [
+  {
+    id: 'regal-l',
+    name: 'NF-Regal L-Shape Sofa',
+    category: 'SOFA',
+    size: '3600 × 3000 × 1000 mm',
+    price: 167175,
+    finish: 'Asmara Leatherette',
+    rating: 5,
+    reviews: 28,
+    image: imgRegalL,
+    badge: { text: 'Bestseller', type: 'green', icon: 'crown' },
+  },
+  {
+    id: 'zap-2',
+    name: 'NF-Zap 2 Seater Sofa',
+    category: 'SOFA',
+    size: '1280 × 755 × 740 mm',
+    price: 39960,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 47,
+    image: imgZap2,
+    badge: { text: 'Bestseller', type: 'green', icon: 'crown' },
+  },
+  {
+    id: 'ergo-4',
+    name: 'NF-Ergo 4 Single Seater',
+    category: 'SOFA',
+    size: '650 × 825 × 860 mm',
+    price: 38610,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 36,
+    image: imgErgo4,
+    badge: { text: 'Trending', type: 'orange', icon: 'flame' },
+  },
+  {
+    id: 'aura-3',
+    name: 'NF-Aura 3 Seater Sofa',
+    category: 'SOFA',
+    size: '2120 × 935 × 850 mm',
+    price: 49770,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 52,
+    image: imgAura3,
+    badge: { text: 'Popular', type: 'orange', icon: 'flame' },
+  },
+  {
+    id: 'diplomat-3',
+    name: 'NF-Diplomat 3 Seater Sofa',
+    category: 'SOFA',
+    size: '2155 × 840 × 760 mm',
+    price: 50400,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 63,
+    image: imgDiplomat3,
+    badge: { text: 'Bestseller', type: 'green', icon: 'crown' },
+  },
+  {
+    id: 'stephen-3',
+    name: 'NF-Stephen 3 Seater Sofa',
+    category: 'SOFA',
+    size: '2120 × 900 × 850 mm',
+    price: 59535,
+    finish: 'Asmara Leatherette',
+    rating: 4.5,
+    reviews: 33,
+    image: imgStephen3,
+    badge: { text: 'Trending', type: 'orange', icon: 'flame' },
+  },
+  {
+    id: 'regal-2',
+    name: 'NF-Regal 2 Seater Sofa',
+    category: 'SOFA',
+    size: '1930 × 1000 × 730 mm',
+    price: 58950,
+    finish: 'Leatherette',
+    rating: 5,
+    reviews: 57,
+    image: imgRegal2,
+    badge: { text: 'Popular', type: 'orange', icon: 'flame' },
+  },
+  {
+    id: 'rosemount-2',
+    name: 'NF-Rosemount 2 Seater Sofa',
+    category: 'SOFA',
+    size: '1860 × 760 × 760 mm',
+    price: 37755,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 39,
+    image: imgRosemount2,
+    badge: { text: 'Trending', type: 'orange', icon: 'flame' },
+  },
+  {
+    id: 'equino-3',
+    name: 'NF-Equino 3 Seater Sofa',
+    category: 'SOFA',
+    size: '1860 × 835 × 785 mm',
+    price: 32310,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 61,
+    image: imgEquino3,
+    badge: { text: 'Bestseller', type: 'green', icon: 'crown' },
+  },
+  {
+    id: 'columbia-2',
+    name: 'NF-Columbia 2 Seater Sofa',
+    category: 'SOFA',
+    size: '1450 × 755 × 750 mm',
+    price: 26460,
+    finish: 'Leatherette',
+    rating: 4.5,
+    reviews: 58,
+    image: imgColumbia2,
+    badge: { text: 'Popular', type: 'orange', icon: 'flame' },
+  },
 ];
 
-/* Sofas, photos, prices and sizes from the NextFurn Overseas 2026 collection price list (w.e.f. 01 May 2026).
-   `price` is the leatherette (starting) price; `leather` is the pure leather price where the list has one.
-   Ratings are placeholders. */
-const SOFAS = [
-  { id: 'diplomat-3', category: '3-seater', name: 'NF-Diplomat 3 Seater Sofa', size: '2155 × 840 × 760 mm', price: 50400, leather: 126720, finish: 'Leatherette', rating: 4.5, reviews: 63, image: imgDiplomat3 },
-  { id: 'regal-l', category: 'l-shape', name: 'NF-Regal L-Shape Sofa', size: '3600 × 3000 × 1000 mm', price: 167175, leather: 316395, finish: 'Asmara Leatherette', rating: 5, reviews: 28, image: imgRegalL },
-  { id: 'zap-2', category: '2-seater', name: 'NF-Zap 2 Seater Sofa', size: '1280 × 755 × 740 mm', price: 39960, leather: 76050, finish: 'Leatherette', rating: 4.5, reviews: 47, image: imgZap2 },
-  { id: 'ergo-4', category: '1-seater', name: 'NF-Ergo 4 Single Seater', size: '650 × 825 × 860 mm', price: 38610, finish: 'Leatherette', rating: 4.5, reviews: 36, image: imgErgo4 },
-  { id: 'aura-3', category: '3-seater', name: 'NF-Aura 3 Seater Sofa', size: '2120 × 935 × 850 mm', price: 49770, leather: 158490, finish: 'Leatherette', rating: 4.5, reviews: 52, image: imgAura3 },
-  { id: 'regal-2', category: '2-seater', name: 'NF-Regal 2 Seater Sofa', size: '1930 × 1000 × 730 mm', price: 58950, leather: 130140, finish: 'Leatherette', rating: 5, reviews: 57, image: imgRegal2 },
-  { id: 'diplomat-1', category: '1-seater', name: 'NF-Diplomat Single Seater', size: '890 × 840 × 760 mm', price: 29970, leather: 74385, finish: 'Leatherette', rating: 4.5, reviews: 41, image: imgDiplomat1 },
-  { id: 'stephen-3', category: '3-seater', name: 'NF-Stephen 3 Seater Sofa', size: '2120 × 900 × 850 mm', price: 59535, leather: 128115, finish: 'Asmara Leatherette', rating: 4.5, reviews: 33, image: imgStephen3 },
-  { id: 'rosemount-2', category: '2-seater', name: 'NF-Rosemount 2 Seater Sofa', size: '1860 × 760 × 760 mm', price: 37755, leather: 99675, finish: 'Leatherette', rating: 4.5, reviews: 39, image: imgRosemount2 },
-  { id: 'zap-1', category: '1-seater', name: 'NF-Zap Single Seater', size: '790 × 755 × 740 mm', price: 32895, leather: 60210, finish: 'Leatherette', rating: 4.5, reviews: 44, image: imgZap1 },
-  { id: 'equino-3', category: '3-seater', name: 'NF-Equino 3 Seater Sofa', size: '1860 × 835 × 785 mm', price: 32310, leather: 101565, finish: 'Leatherette', rating: 4.5, reviews: 61, image: imgEquino3 },
-  { id: 'columbia-2', category: '2-seater', name: 'NF-Columbia 2 Seater Sofa', size: '1450 × 755 × 750 mm', price: 26460, leather: 80460, finish: 'Leatherette', rating: 4.5, reviews: 58, image: imgColumbia2 },
-  { id: 'columbia-1', category: '1-seater', name: 'NF-Columbia Single Seater', size: '865 × 755 × 750 mm', price: 19080, leather: 54720, finish: 'Leatherette', rating: 4.5, reviews: 49, image: imgColumbia1 },
-];
+const TOTAL_PRODUCTS = SOFA_PRODUCTS.length;
+const INITIAL_FEATURED_STEP = SOFA_PRODUCTS.findIndex((product) => product.id === 'diplomat-3');
 
-const BENEFITS = [
-  { icon: 'brush', label: ['Stylish', 'Designs'] },
-  { icon: 'fabric', label: ['Premium', 'Fabric'] },
-  { icon: 'comfort', label: ['Long Lasting', 'Comfort'] },
-  { icon: 'variety', label: ['Wide', 'Variety'] },
-];
+const formatINR = (n) => `₹${n.toLocaleString('en-IN')}`;
 
-const AUTOPLAY_MS = 2200;
-const SLIDE_MS = 500;
+function Icon({ name, filled }) {
+  const c = {
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.8,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    'aria-hidden': true,
+  };
 
-const formatINR = (n) => `\u20B9${n.toLocaleString('en-IN')}`;
-
-function perViewFor(width) {
-  if (width >= 900) return 4;
-  if (width >= 660) return 3;
-  if (width >= 420) return 2;
-  return 1;
-}
-
-function Icon({ name }) {
-  const common = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true };
   switch (name) {
     case 'arrow':
-      return <svg {...common} strokeWidth="2"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>;
-    case 'arrow-left':
-      return <svg {...common} strokeWidth="2"><path d="M19 12H5" /><path d="m11 6-6 6 6 6" /></svg>;
+      return (
+        <svg {...c} strokeWidth="2.4" width="18" height="18">
+          <path d="M5 12h14" />
+          <path d="m13 6 6 6-6 6" />
+        </svg>
+      );
     case 'heart':
-      return <svg {...common} strokeWidth="1.8"><path d="M12 20s-7-4.35-9.2-8.7C1.3 8.3 3.2 5 6.4 5c2 0 3.3 1.1 3.9 2.2h3.4C14.3 6.1 15.6 5 17.6 5c3.2 0 5.1 3.3 3.6 6.3C19 15.65 12 20 12 20z" /></svg>;
-    case 'cart':
-      return <svg {...common} fill="currentColor" stroke="none"><path d="M3 4h2.2l2.1 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H7" fill="none" stroke="currentColor" strokeWidth="1.9" /><circle cx="10" cy="19.5" r="1.6" /><circle cx="17" cy="19.5" r="1.6" /></svg>;
+      return filled ? (
+        <svg viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" strokeWidth="1.5" width="18" height="18" aria-hidden="true">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+      ) : (
+        <svg {...c} width="18" height="18">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        </svg>
+      );
     case 'star':
-      return <svg {...common} fill="currentColor" stroke="none"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z" /></svg>;
-    case 'brush':
-      return <svg {...common}><path d="M14.5 4.5 19.5 9.5 11 18l-5-5z" /><path d="M6 13c-2 0-3 1.5-3 3.2 0 1.4-.5 2.3-1 2.8 2.5.5 6 .2 7-3" /><path d="m13 6 5 5" /></svg>;
-    case 'fabric':
-      return <svg {...common}><rect x="4" y="4" width="16" height="16" rx="3" /><path d="M4 9.3h16M4 14.6h16M9.3 4v16M14.6 4v16" /></svg>;
-    case 'comfort':
-      return <svg {...common}><path d="M12 7.5c-1-1.6-3.6-1.6-4.3.3-.6 1.8 1.4 3.2 4.3 5 2.9-1.8 4.9-3.2 4.3-5-.7-1.9-3.3-1.9-4.3-.3z" /><path d="M3 15.5c1.8 0 3.4.6 4.6 1.6h4.2a1.6 1.6 0 0 1 0 3.2H8" /><path d="M11.8 20.3h4.6l4.2-3.2a1.4 1.4 0 0 0-1.8-2.1l-3 1.9" /></svg>;
-    case 'variety':
-      return <svg {...common}><rect x="4" y="4" width="7" height="7" rx="1.6" /><rect x="13" y="4" width="7" height="7" rx="3.5" /><rect x="4" y="13" width="7" height="7" rx="3.5" /><rect x="13" y="13" width="7" height="7" rx="1.6" /></svg>;
+      return (
+        <svg viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" strokeWidth="1" width="14" height="14" aria-hidden="true">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      );
+    case 'crown':
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="12" height="12" aria-hidden="true">
+          <path d="M2 19h20v2H2zM2 5l5 7 5-7 5 7 5-7v11H2z" />
+        </svg>
+      );
+    case 'flame':
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="12" height="12" aria-hidden="true">
+          <path d="M12 2c-.3 0-.5.2-.6.4C10.3 4.8 7 10 7 14c0 3.3 2.2 6 5 6s5-2.7 5-6c0-2-.8-3.9-1.9-5.4-.2-.3-.6-.3-.8 0-.5.6-1.1 1.2-1.7 1.7-.3.3-.8.1-.8-.3.2-1.7-.1-4.7-.8-8z" />
+        </svg>
+      );
     default:
       return null;
   }
 }
 
-function Stars({ rating }) {
-  return (
-    <span className="sofa-card__stars" aria-label={`Rated ${rating} out of 5`}>
-      {[0, 1, 2, 3, 4].map((i) => (
-        <span key={i} className="sofa-star" style={{ '--fill': `${Math.max(0, Math.min(1, rating - i)) * 100}%` }} aria-hidden="true">
-          <Icon name="star" />
-          <span className="sofa-star__fill"><Icon name="star" /></span>
-        </span>
-      ))}
-    </span>
-  );
-}
+export default function SofaSection({ onNavigateProduct }) {
+  const { isWishlisted, toggleWishlist } = useWishlist();
 
-function SofaCard({ sofa, isVisible, isClone, liked, onToggleLike, added, onAdd }) {
-  const inactive = isClone || !isVisible;
-  return (
-    <li className={`sofa-slide${isVisible ? ' is-visible' : ''}`} aria-hidden={inactive ? 'true' : undefined}>
-      <article className="sofa-card" data-sofa-card>
-        <div className="sofa-card__media">
-          <img src={sofa.image} alt={sofa.name} loading="lazy" decoding="async" width="1200" height="750" />
-          <button
-            type="button"
-            className={`sofa-card__like${liked ? ' is-liked' : ''}`}
-            aria-label={liked ? `Remove ${sofa.name} from wishlist` : `Add ${sofa.name} to wishlist`}
-            aria-pressed={liked}
-            tabIndex={inactive ? -1 : 0}
-            onClick={() => onToggleLike(sofa.id)}
-          >
-            <Icon name="heart" />
-          </button>
-        </div>
-        <div className="sofa-card__body">
-          <h3 className="sofa-card__name">{sofa.name}</h3>
-          <p className="sofa-card__rating">
-            <Stars rating={sofa.rating} />
-            <span className="sofa-card__reviews">({sofa.reviews})</span>
-          </p>
-          <p className="sofa-card__size">{sofa.size}</p>
-          <p className="sofa-card__price-row">
-            <span className="sofa-card__price">{formatINR(sofa.price)}</span>
-            <span className="sofa-card__off">{sofa.finish}</span>
-          </p>
-          {sofa.leather && <p className="sofa-card__alt">Pure Leather {formatINR(sofa.leather)}</p>}
-          <button
-            type="button"
-            className={`sofa-card__cart${added ? ' is-added' : ''}`}
-            tabIndex={inactive ? -1 : 0}
-            onClick={() => onAdd(sofa.id)}
-          >
-            <span>{added ? 'Added to Cart' : 'Add to Cart'}</span>
-            <Icon name="cart" />
-          </button>
-        </div>
-      </article>
-    </li>
-  );
-}
-
-export default function SofaSection() {
-  const sectionRef = useRef(null);
-  const viewportRef = useRef(null);
-  const stripRef = useRef(null);
-  const pendingIndexRef = useRef(null);
-
-  const [activeCat, setActiveCat] = useState('all');
-  const [perView, setPerView] = useState(4);
-  const [index, setIndex] = useState(0);
-  const [animate, setAnimate] = useState(true);
-  const [hovered, setHovered] = useState(false);
-  const [pageHidden, setPageHidden] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [liked, setLiked] = useState(() => new Set());
-  const [added, setAdded] = useState(() => new Set());
-
-  const products = activeCat === 'all' ? SOFAS : SOFAS.filter((s) => s.category === activeCat);
-  const total = products.length;
-  const canSlide = total > perView;
-  const slides = canSlide ? [...products, ...products.slice(0, perView)] : products;
-
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return undefined;
-    const ro = new ResizeObserver(([entry]) => setPerView(perViewFor(entry.contentRect.width)));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const onVisibility = () => setPageHidden(document.hidden);
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onMotion = () => setReducedMotion(mq.matches);
-    onMotion();
-    document.addEventListener('visibilitychange', onVisibility);
-    mq.addEventListener('change', onMotion);
-    return () => {
-      document.removeEventListener('visibilitychange', onVisibility);
-      mq.removeEventListener('change', onMotion);
-    };
-  }, []);
-
-  const selectCategory = (id) => {
-    setActiveCat(id);
-    setAnimate(false);
-    setIndex(0);
-    const el = stripRef.current?.querySelector(`[data-cat="${id}"]`);
-    el?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
-  };
-
-  const stepCategory = (dir) => {
-    const i = CATEGORIES.findIndex((c) => c.id === activeCat);
-    selectCategory(CATEGORIES[(i + dir + CATEGORIES.length) % CATEGORIES.length].id);
-  };
-
-  // Cards travel left -> right: step the index down, wrapping through the clones
-  const step = useCallback(() => {
-    if (!canSlide) return;
-    if (index > 0) {
-      setAnimate(true);
-      setIndex(index - 1);
-      return;
-    }
-    // Jump silently to the clone of the first card, then slide back one step
-    pendingIndexRef.current = total - 1;
-    setAnimate(false);
-    setIndex(total);
-  }, [canSlide, index, total]);
-
-  const onTrackTransitionEnd = (e) => {
-    if (e.target !== e.currentTarget || e.propertyName !== 'transform') return;
-    if (index >= total) {
-      setAnimate(false);
-      setIndex(index - total);
+  const navigateToProduct = (p) => {
+    const slug = p.slug || slugify(p.name);
+    const image = p.id === 'diplomat-3'
+      ? imgBadaSofa
+      : SMALL_CARD_IMAGES[p.id] || p.image;
+    if (onNavigateProduct) {
+      onNavigateProduct(slug, image);
+    } else {
+      window.location.hash = `#product/${slug}`;
     }
   };
 
-  // Re-enable the transition two frames after a silent jump
-  useEffect(() => {
-    if (animate) return undefined;
-    let inner;
-    const outer = requestAnimationFrame(() => {
-      inner = requestAnimationFrame(() => {
-        setAnimate(true);
-        if (pendingIndexRef.current !== null) {
-          setIndex(pendingIndexRef.current);
-          pendingIndexRef.current = null;
-        }
-      });
+  const handleSofaClick = (p) => (e) => {
+    if (e.target.closest('.sofa-heart-btn') || e.target.closest('.sofa-arrow-btn')) return;
+    navigateToProduct(p);
+  };
+
+  const toggleLike = (product) => {
+    const image = product.id === 'diplomat-3'
+      ? imgBadaSofa
+      : SMALL_CARD_IMAGES[product.id] || product.image;
+    toggleWishlist({
+      ...product,
+      selectedVariant: {
+        model: product.id,
+        label: product.size || product.finish || '',
+        price: product.price,
+        image,
+      },
     });
-    return () => {
-      cancelAnimationFrame(outer);
-      cancelAnimationFrame(inner);
-    };
-  }, [animate]);
+  };
 
-  // One timer per index change; nothing accumulates across renders
-  useEffect(() => {
-    if (!canSlide || hovered || pageHidden || reducedMotion) return undefined;
-    const id = setTimeout(step, AUTOPLAY_MS);
-    return () => clearTimeout(id);
-  }, [index, canSlide, hovered, pageHidden, reducedMotion, step]);
-
-  const toggleIn = (setter) => (id) =>
-    setter((prevSet) => {
-      const nextSet = new Set(prevSet);
-      if (nextSet.has(id)) nextSet.delete(id);
-      else nextSet.add(id);
-      return nextSet;
-    });
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    const mm = gsap.matchMedia(section);
-
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const q = gsap.utils.selector(section);
-      const st = (trigger, start = 'top 80%') => ({ trigger, start, toggleActions: 'play none none reverse' });
-      const hero = q('.sofa-hero')[0];
-
-      gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: st(hero) })
-        .from(q('.sofa-hero__photo'), { autoAlpha: 0, duration: 1.1 })
-        .from(q('.sofa-hero__photo img'), { scale: 1.04, duration: 1.6, ease: 'power2.out' }, '<')
-        .from(q('.sofa-hero__panel'), { autoAlpha: 0, xPercent: -6, duration: 1.1, ease: 'expo.out' }, '<0.1')
-        .from(q('[data-sofa-hero-item]'), { autoAlpha: 0, y: 22, duration: 0.7, stagger: 0.08 }, '<0.2')
-        .from(q('.sofa-hero__promo > *'), { autoAlpha: 0, scale: 0.94, duration: 0.8, stagger: 0.1 }, '<0.2');
-
-      gsap.from(q('.sofa-strip'), { autoAlpha: 0, y: 30, duration: 0.9, ease: 'power3.out', scrollTrigger: st(q('.sofa-strip')[0], 'top 90%') });
-      gsap.from(q('.sofa-strip__item'), { autoAlpha: 0, y: 14, duration: 0.6, stagger: 0.05, delay: 0.15, ease: 'power3.out', scrollTrigger: st(q('.sofa-strip')[0], 'top 90%') });
-
-      const feature = q('.sofa-feature')[0];
-      gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: st(feature) })
-        .from(q('.sofa-feature__shape'), { autoAlpha: 0, xPercent: -10, duration: 1.1, ease: 'expo.out' })
-        .from(q('[data-sofa-feature-item]'), { autoAlpha: 0, x: -20, duration: 0.7, stagger: 0.08 }, '<0.2')
-        .from(q('[data-sofa-card]'), { autoAlpha: 0, scale: 0.94, y: 30, duration: 0.8, stagger: 0.09 }, '<0.1');
-    });
-
-    return () => mm.revert();
-  }, []);
+  const pLarge = SOFA_PRODUCTS[INITIAL_FEATURED_STEP];
+  const pTopLeft = SOFA_PRODUCTS[(INITIAL_FEATURED_STEP + 1) % TOTAL_PRODUCTS];
+  const pTopRight = SOFA_PRODUCTS[(INITIAL_FEATURED_STEP + 2) % TOTAL_PRODUCTS];
+  const pBottomLeft = SOFA_PRODUCTS[(INITIAL_FEATURED_STEP + 3) % TOTAL_PRODUCTS];
+  const pBottomRight = SOFA_PRODUCTS[(INITIAL_FEATURED_STEP + 4) % TOTAL_PRODUCTS];
 
   return (
-    <section id="sofas" className="sofa-section" ref={sectionRef} aria-labelledby="sofa-title">
-      <svg className="sofa-section__defs" width="0" height="0" aria-hidden="true" focusable="false">
-        <defs>
-          {/* Cream hero panel: bulging right edge that sweeps out under the photo at the bottom */}
-          <clipPath id="sofa-clip-panel" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 H0.81 C0.86,0.08 0.885,0.2 0.875,0.34 C0.865,0.5 0.84,0.66 0.85,0.76 C0.87,0.9 0.93,0.97 1,1 L0,1 Z" />
-          </clipPath>
-          {/* Green swoosh in the hero bottom-left that flows into the featured panel */}
-          <clipPath id="sofa-clip-swoosh" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 C0.3,0.05 0.62,0.32 1,1 L0,1 Z" />
-          </clipPath>
-          {/* Featured panel: one sculpted green shape */}
-          <clipPath id="sofa-clip-feature" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 H0.9 C0.965,0.05 0.975,0.16 0.975,0.3 C0.975,0.48 0.975,0.6 0.945,0.71 C0.905,0.86 0.845,0.95 0.77,1 L0,1 Z" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      {/* ---------- Hero ---------- */}
-      <div className="sofa-hero">
-        <div className="sofa-hero__photo">
-          <img src={imgHero} alt="Cream modular L-shape sofa with walnut coffee table in a warm living room" decoding="async" />
-        </div>
-
-        <div className="sofa-hero__panel">
-          <div className="sofa-hero__panel-bg" aria-hidden="true" />
-          <div className="sofa-hero__swoosh" aria-hidden="true" />
-          <svg className="sofa-hero__panel-line" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0.872,0.42 C0.862,0.55 0.84,0.66 0.85,0.76 C0.87,0.9 0.93,0.97 1,1" vectorEffect="non-scaling-stroke" />
-          </svg>
-
-          <div className="sofa-hero__content">
-            <p className="sofa-eyebrow" data-sofa-hero-item>
-              <span className="sofa-eyebrow__line" aria-hidden="true" />
-              Sofa Collection
-              <span className="sofa-eyebrow__line" aria-hidden="true" />
-            </p>
-            <h2 id="sofa-title" className="sofa-hero__title" data-sofa-hero-item>
-              Premium Sofas
-              <span>for Every Space</span>
+    <section id="sofas" className="sofa-section" aria-labelledby="sofa-title">
+      {/* Rebuilt Bestselling Sofa Collection Showcase */}
+      <div
+        className="sofa-showcase-section"
+      >
+        <div className="sofa-showcase-inner">
+          {/* Section Header */}
+          <div className="sofa-showcase-header">
+            <div className="sofa-showcase-eyebrow">
+              <span className="sofa-showcase-eyebrow-line" />
+              <span>FEATURED SOFAS</span>
+              <span className="sofa-showcase-eyebrow-line" />
+            </div>
+            <h2 className="sofa-showcase-title" id="sofa-title">
+              <span className="sofa-title-orange">Bestselling</span>{' '}
+              <span className="sofa-title-green">Sofa Collection</span>
             </h2>
-            <p className="sofa-hero__text" data-sofa-hero-item>
-              Comfort meets elegance with our wide range of sofas, designed to suit every home and lifestyle.
-            </p>
-            <ul className="sofa-hero__benefits" data-sofa-hero-item>
-              {BENEFITS.map((b) => (
-                <li key={b.icon}>
-                  <span className="sofa-hero__benefit-icon"><Icon name={b.icon} /></span>
-                  <span>{b.label[0]}<br />{b.label[1]}</span>
-                </li>
-              ))}
-            </ul>
-            <a href="#sofa-featured" className="sofa-btn" data-sofa-hero-item>
-              <span>Explore Sofa Collection</span>
-              <span className="sofa-btn__circle"><Icon name="arrow" /></span>
-            </a>
-          </div>
-        </div>
-
-        <div className="sofa-hero__promo">
-          <p className="sofa-hero__script">Make Your <br />Home More Comfortable</p>
-          <span className="sofa-hero__promo-line" aria-hidden="true" />
-          <p className="sofa-hero__promo-label">Sofas for<br />modern living</p>
-          <p className="sofa-hero__badge">
-            <span>Up to</span>
-            <strong>25%</strong>
-            <span>Off</span>
-          </p>
-        </div>
-      </div>
-
-      {/* ---------- Category strip ---------- */}
-      <nav className="sofa-strip" aria-label="Sofa categories">
-        <button type="button" className="sofa-round sofa-round--light" aria-label="Previous category" onClick={() => stepCategory(-1)}>
-          <Icon name="arrow-left" />
-        </button>
-        <ul className="sofa-strip__list" ref={stripRef}>
-          {CATEGORIES.map((c) => (
-            <li key={c.id}>
-              <button
-                type="button"
-                data-cat={c.id}
-                className={`sofa-strip__item${activeCat === c.id ? ' is-active' : ''}`}
-                aria-pressed={activeCat === c.id}
-                onClick={() => selectCategory(c.id)}
-              >
-                <span className="sofa-strip__thumb"><img src={c.image} alt="" loading="lazy" decoding="async" /></span>
-                <span className="sofa-strip__label">{c.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button type="button" className="sofa-round sofa-round--light" aria-label="Next category" onClick={() => stepCategory(1)}>
-          <Icon name="arrow" />
-        </button>
-      </nav>
-
-      {/* ---------- Featured sofas ---------- */}
-      <div className="sofa-feature" id="sofa-featured">
-        <div className="sofa-feature__panel">
-          <div className="sofa-feature__shape" aria-hidden="true">
-            <svg className="sofa-feature__leaves" viewBox="0 0 200 220" aria-hidden="true">
-              <g fill="#2f6b47">
-                <path d="M18 220C30 160 62 118 118 92c-30 40-56 84-70 128z" />
-                <path d="M0 196c14-50 40-84 86-104-24 32-46 68-58 112z" opacity=".8" />
-                <path d="M40 220c22-40 54-68 104-80-34 22-62 50-84 80z" opacity=".7" />
-              </g>
-              <g fill="none" stroke="#3f8159" strokeWidth="1.4" opacity=".7">
-                <path d="M30 214c18-44 44-80 84-116" />
-                <path d="M10 196c16-38 38-66 72-96" />
-              </g>
-            </svg>
-          </div>
-          <div className="sofa-feature__content">
-            <p className="sofa-feature__eyebrow" data-sofa-feature-item>Featured Sofas</p>
-            <h3 className="sofa-feature__title" data-sofa-feature-item>Bestselling<br />Sofa Collection</h3>
-            <p className="sofa-feature__text" data-sofa-feature-item>
+            <p className="sofa-showcase-subtitle">
               Our most loved sofas, chosen for their comfort, quality and modern designs.
             </p>
-            <a href="#sofas" className="sofa-btn sofa-btn--copper" data-sofa-feature-item onClick={() => setActiveCat('all')}>
-              <span>View All Sofas</span>
-              <span className="sofa-btn__circle"><Icon name="arrow" /></span>
-            </a>
-          </div>
-        </div>
-
-        <div
-          className="sofa-carousel"
-          role="region"
-          aria-roledescription="carousel"
-          aria-label="Featured sofas"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onFocus={() => setHovered(true)}
-          onBlur={() => setHovered(false)}
-        >
-          <div className="sofa-carousel__viewport" ref={viewportRef}>
-            <ul
-              className={`sofa-carousel__track${animate ? '' : ' no-anim'}`}
-              style={{ '--pv': perView, '--index': index, '--slide-ms': `${SLIDE_MS}ms` }}
-              onTransitionEnd={onTrackTransitionEnd}
-            >
-              {slides.map((sofa, i) => (
-                <SofaCard
-                  key={`${activeCat}-${sofa.id}-${i}`}
-                  sofa={sofa}
-                  isClone={i >= total}
-                  isVisible={i >= index && i < index + perView}
-                  liked={liked.has(sofa.id)}
-                  onToggleLike={toggleIn(setLiked)}
-                  added={added.has(sofa.id)}
-                  onAdd={toggleIn(setAdded)}
-                />
-              ))}
-            </ul>
           </div>
 
-          {canSlide && (
-            <div className="sofa-dots" aria-hidden="true">
-                {products.map((p, i) => (
-                  <span key={p.id} className={`sofa-dot${index % total === i ? ' is-active' : ''}`} />
-              ))}
+          {/* Showcase Cards Grid */}
+          <div className="sofa-showcase-grid">
+            {/* Large Featured Card (Left) */}
+            <div className="sofa-large-card-wrapper">
+              <div
+                className="sofa-card sofa-large-card"
+                onClick={handleSofaClick(pLarge)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className={`sofa-card-img-wrap sofa-large-img-wrap ${pLarge.id === 'diplomat-3' ? 'sofa-large-img-wrap--bada-sofa' : ''}`}>
+                  {pLarge.badge && (
+                    <span className={`sofa-badge sofa-badge--${pLarge.badge.type}`}>
+                      <Icon name={pLarge.badge.icon} />
+                      <span>{pLarge.badge.text}</span>
+                    </span>
+                  )}
+                  <img
+                    src={pLarge.id === 'diplomat-3' ? imgBadaSofa : pLarge.image}
+                    alt={pLarge.name}
+                    className={`sofa-card-img ${pLarge.id === 'diplomat-3' ? 'sofa-card-img--featured-static' : ''}`}
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <button
+                    type="button"
+                    className={`sofa-heart-btn ${isWishlisted(pLarge.id) ? 'is-liked' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(pLarge);
+                    }}
+                    aria-label={isWishlisted(pLarge.id) ? `Remove ${pLarge.name} from wishlist` : `Add ${pLarge.name} to wishlist`}
+                  >
+                    <Icon name="heart" filled={isWishlisted(pLarge.id)} />
+                  </button>
+                </div>
+
+                <div className="sofa-card-body sofa-large-body">
+                  <div className="sofa-card-meta">
+                    <span className="sofa-card-cat">{pLarge.category}</span>
+                    <h3 className="sofa-card-title sofa-large-title">{pLarge.name}</h3>
+                  </div>
+
+                  <div className="sofa-card-footer sofa-large-footer">
+                    <div className="sofa-price-group">
+                      <span className="sofa-card-price">{formatINR(pLarge.price)}</span>
+                      {pLarge.finish && <span className="sofa-material-pill">{pLarge.finish}</span>}
+                    </div>
+                    <button
+                      type="button"
+                      className="sofa-arrow-btn sofa-arrow-btn--green"
+                      aria-label={`View details for ${pLarge.name}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigateToProduct(pLarge);
+                      }}
+                    >
+                      <Icon name="arrow" />
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* 4 Small Cards Grid (Right 2x2) */}
+            <div className="sofa-small-grid">
+              {/* Card 1: Top-Left (Peach Theme) */}
+              <div className="sofa-small-card-wrapper">
+                <div
+                  className="sofa-card sofa-small-card sofa-card--peach"
+                  onClick={handleSofaClick(pTopLeft)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="sofa-card-img-wrap sofa-small-img-wrap">
+                    {pTopLeft.badge && (
+                      <span className={`sofa-badge sofa-badge--${pTopLeft.badge.type}`}>
+                        <Icon name={pTopLeft.badge.icon} />
+                        <span>{pTopLeft.badge.text}</span>
+                      </span>
+                    )}
+                    <img
+                      src={SMALL_CARD_IMAGES[pTopLeft.id] || pTopLeft.image}
+                      alt={pTopLeft.name}
+                      className="sofa-card-img"
+                      loading="eager"
+                      decoding="async"
+                    />
+                    <button
+                      type="button"
+                      className={`sofa-heart-btn ${isWishlisted(pTopLeft.id) ? 'is-liked' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLike(pTopLeft);
+                      }}
+                      aria-label={isWishlisted(pTopLeft.id) ? `Remove ${pTopLeft.name} from wishlist` : `Add ${pTopLeft.name} to wishlist`}
+                    >
+                      <Icon name="heart" filled={isWishlisted(pTopLeft.id)} />
+                    </button>
+                  </div>
+
+                  <div className="sofa-card-body sofa-small-body">
+                    <span className="sofa-card-cat">{pTopLeft.category}</span>
+                    <h3 className="sofa-card-title sofa-small-title" title={pTopLeft.name}>{pTopLeft.name}</h3>
+                    <div className="sofa-card-footer sofa-small-footer">
+                      <div className="sofa-price-group">
+                        <span className="sofa-card-price">{formatINR(pTopLeft.price)}</span>
+                        {pTopLeft.finish && <span className="sofa-material-pill">{pTopLeft.finish}</span>}
+                      </div>
+                      <button
+                        type="button"
+                        className="sofa-arrow-btn sofa-arrow-btn--green"
+                        aria-label={`View details for ${pTopLeft.name}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigateToProduct(pTopLeft);
+                        }}
+                      >
+                        <Icon name="arrow" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2: Top-Right (Deep Green Theme) */}
+              <div className="sofa-small-card-wrapper">
+                <div
+                  className="sofa-card sofa-small-card sofa-card--green"
+                  onClick={handleSofaClick(pTopRight)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="sofa-card-img-wrap sofa-small-img-wrap">
+                    {pTopRight.badge && (
+                      <span className={`sofa-badge sofa-badge--${pTopRight.badge.type}`}>
+                        <Icon name={pTopRight.badge.icon} />
+                        <span>{pTopRight.badge.text}</span>
+                      </span>
+                    )}
+                    <img
+                      src={SMALL_CARD_IMAGES[pTopRight.id] || pTopRight.image}
+                      alt={pTopRight.name}
+                      className="sofa-card-img"
+                      loading="eager"
+                      decoding="async"
+                    />
+                    <button
+                      type="button"
+                      className={`sofa-heart-btn ${isWishlisted(pTopRight.id) ? 'is-liked' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLike(pTopRight);
+                      }}
+                      aria-label={isWishlisted(pTopRight.id) ? `Remove ${pTopRight.name} from wishlist` : `Add ${pTopRight.name} to wishlist`}
+                    >
+                      <Icon name="heart" filled={isWishlisted(pTopRight.id)} />
+                    </button>
+                  </div>
+
+                  <div className="sofa-card-body sofa-small-body">
+                    <span className="sofa-card-cat sofa-card-cat--light">{pTopRight.category}</span>
+                    <h3 className="sofa-card-title sofa-small-title sofa-title--white" title={pTopRight.name}>{pTopRight.name}</h3>
+                    <div className="sofa-card-footer sofa-small-footer">
+                      <div className="sofa-price-group">
+                        <span className="sofa-card-price sofa-price--white">{formatINR(pTopRight.price)}</span>
+                        {pTopRight.finish && <span className="sofa-material-pill">{pTopRight.finish}</span>}
+                      </div>
+                      <button
+                        type="button"
+                        className="sofa-arrow-btn sofa-arrow-btn--white"
+                        aria-label={`View details for ${pTopRight.name}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigateToProduct(pTopRight);
+                        }}
+                      >
+                        <Icon name="arrow" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3: Bottom-Left (Deep Green Theme) */}
+              <div className="sofa-small-card-wrapper">
+                <div
+                  className="sofa-card sofa-small-card sofa-card--green"
+                  onClick={handleSofaClick(pBottomLeft)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="sofa-card-img-wrap sofa-small-img-wrap">
+                    {pBottomLeft.badge && (
+                      <span className={`sofa-badge sofa-badge--${pBottomLeft.badge.type}`}>
+                        <Icon name={pBottomLeft.badge.icon} />
+                        <span>{pBottomLeft.badge.text}</span>
+                      </span>
+                    )}
+                    <img
+                      src={SMALL_CARD_IMAGES[pBottomLeft.id] || pBottomLeft.image}
+                      alt={pBottomLeft.name}
+                      className="sofa-card-img"
+                      loading="eager"
+                      decoding="async"
+                    />
+                    <button
+                      type="button"
+                      className={`sofa-heart-btn ${isWishlisted(pBottomLeft.id) ? 'is-liked' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLike(pBottomLeft);
+                      }}
+                      aria-label={isWishlisted(pBottomLeft.id) ? `Remove ${pBottomLeft.name} from wishlist` : `Add ${pBottomLeft.name} to wishlist`}
+                    >
+                      <Icon name="heart" filled={isWishlisted(pBottomLeft.id)} />
+                    </button>
+                  </div>
+
+                  <div className="sofa-card-body sofa-small-body">
+                    <span className="sofa-card-cat sofa-card-cat--light">{pBottomLeft.category}</span>
+                    <h3 className="sofa-card-title sofa-small-title sofa-title--white" title={pBottomLeft.name}>{pBottomLeft.name}</h3>
+                    <div className="sofa-card-footer sofa-small-footer">
+                      <div className="sofa-price-group">
+                        <span className="sofa-card-price sofa-price--white">{formatINR(pBottomLeft.price)}</span>
+                        {pBottomLeft.finish && <span className="sofa-material-pill">{pBottomLeft.finish}</span>}
+                      </div>
+                      <button
+                        type="button"
+                        className="sofa-arrow-btn sofa-arrow-btn--white"
+                        aria-label={`View details for ${pBottomLeft.name}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigateToProduct(pBottomLeft);
+                        }}
+                      >
+                        <Icon name="arrow" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4: Bottom-Right (Peach Theme) */}
+              <div className="sofa-small-card-wrapper">
+                <div
+                  className="sofa-card sofa-small-card sofa-card--peach"
+                  onClick={handleSofaClick(pBottomRight)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="sofa-card-img-wrap sofa-small-img-wrap">
+                    {pBottomRight.badge && (
+                      <span className={`sofa-badge sofa-badge--${pBottomRight.badge.type}`}>
+                        <Icon name={pBottomRight.badge.icon} />
+                        <span>{pBottomRight.badge.text}</span>
+                      </span>
+                    )}
+                    <img
+                      src={SMALL_CARD_IMAGES[pBottomRight.id] || pBottomRight.image}
+                      alt={pBottomRight.name}
+                      className="sofa-card-img"
+                      loading="eager"
+                      decoding="async"
+                    />
+                    <button
+                      type="button"
+                      className={`sofa-heart-btn ${isWishlisted(pBottomRight.id) ? 'is-liked' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLike(pBottomRight);
+                      }}
+                      aria-label={isWishlisted(pBottomRight.id) ? `Remove ${pBottomRight.name} from wishlist` : `Add ${pBottomRight.name} to wishlist`}
+                    >
+                      <Icon name="heart" filled={isWishlisted(pBottomRight.id)} />
+                    </button>
+                  </div>
+
+                  <div className="sofa-card-body sofa-small-body">
+                    <span className="sofa-card-cat">{pBottomRight.category}</span>
+                    <h3 className="sofa-card-title sofa-small-title" title={pBottomRight.name}>{pBottomRight.name}</h3>
+                    <div className="sofa-card-footer sofa-small-footer">
+                      <div className="sofa-price-group">
+                        <span className="sofa-card-price">{formatINR(pBottomRight.price)}</span>
+                        {pBottomRight.finish && <span className="sofa-material-pill">{pBottomRight.finish}</span>}
+                      </div>
+                      <button
+                        type="button"
+                        className="sofa-arrow-btn sofa-arrow-btn--green"
+                        aria-label={`View details for ${pBottomRight.name}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigateToProduct(pBottomRight);
+                        }}
+                      >
+                        <Icon name="arrow" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

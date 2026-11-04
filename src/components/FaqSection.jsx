@@ -1,18 +1,13 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import imgHero from '../assets/products/lounge-corner.jpg';
-import imgSupport from '../assets/banners/banner-1.jpg';
 import '../styles/faq-section.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const CONTACT = {
   phone: '+91 99909 26199',
-  phoneHref: 'tel:+919990926199',
-  phoneNote: 'N.K. Singh \u00B7 +91 96647 61989',
   email: 'nextfurn12@gmail.com',
-  emailNote: 'Sales & product enquiries',
 };
 
 const ASK = `call ${CONTACT.phone} or email ${CONTACT.email}`;
@@ -21,7 +16,7 @@ const ASK = `call ${CONTACT.phone} or email ${CONTACT.email}`;
    points the visitor to the team instead of promising a policy. */
 const FAQ = [
   { id: 'general', label: 'General Questions', icon: 'question', heading: ['Common Questions', 'About NextFurn'], items: [
-    ['What is NextFurn Overseas?', 'NextFurn Overseas is a global furniture brand dedicated to creating modern, functional and elegant spaces for offices, institutions, healthcare facilities and public environments. We combine innovative design, premium quality and expert craftsmanship to deliver furniture solutions that inspire people and perform for generations.'],
+    ['What is NextFurn Overseas?', 'NextFurn Overseas is an Indian furniture brand dedicated to creating modern, functional and elegant spaces for offices, institutions, healthcare facilities and public environments. We combine innovative design, premium quality and expert craftsmanship to deliver furniture solutions that inspire people and perform for generations.'],
     ['What types of furniture do you offer?', 'Our range covers office chairs and executive tables, modular workstations, sofas and lounge seating, education furniture, healthcare beds, public and waiting seating, cafeteria furniture and steel storage.'],
     ['Do you provide customized furniture solutions?', `Yes, we work on custom requirements. Share your space, quantities and preferred finishes with our team (${ASK}) and we will advise on options and pricing.`],
     ['How can I place an order?', `Note the model numbers you need (for example NF-GMS 1), then ${ASK}. We share a quotation or proforma invoice, and the order is confirmed on receipt of the advance payment.`],
@@ -30,7 +25,7 @@ const FAQ = [
     ['How can I contact your support team?', `Call N.K. Singh on ${CONTACT.phone} or Dheeraj Kashyap on +91 96647 61989, or email ${CONTACT.email}.`],
   ] },
   { id: 'products', label: 'Our Products', icon: 'chair', heading: ['Questions About', 'Our Products'], items: [
-    ['What furniture categories are available?', 'Office furniture, sofa & lounge, education, healthcare, public seating, cafeteria and storage & utility \u2014 see the Our Products section above for featured models and prices.'],
+    ['What furniture categories are available?', 'Office furniture, sofa & lounge, education, healthcare, public seating, cafeteria and storage & utility. Contact our team for available models and prices.'],
     ['How can I compare product specifications?', 'Every product in our price lists has a model number, specification, size and price. Use the model numbers when you ask our team for a side-by-side comparison.'],
     ['Are product images representative of the actual furniture?', 'Yes, but colours and finishes shown are for reference only; the actual product may vary slightly.'],
   ] },
@@ -68,13 +63,6 @@ const FAQ = [
   ] },
 ];
 
-const BENEFITS = [
-  { icon: 'truck', title: 'Fast & Reliable Support', text: 'Quick answers to your queries' },
-  { icon: 'shield', title: 'Trusted Guidance', text: 'From experts in furniture solutions' },
-  { icon: 'gear', title: 'Detailed Information', text: 'Products, customization & more' },
-  { icon: 'users', title: 'Personalized Assistance', text: 'We\u2019re here for you always' },
-];
-
 function Icon({ name }) {
   const c = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true };
   switch (name) {
@@ -88,10 +76,6 @@ function Icon({ name }) {
     case 'box': return <svg {...c}><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z" /><path d="m4 7.5 8 4.5 8-4.5M12 12v9M8 5.3l8 4.5" /></svg>;
     case 'gear': return <svg {...c}><circle cx="12" cy="12" r="3" /><path d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" /></svg>;
     case 'users': return <svg {...c}><circle cx="9" cy="8" r="3" /><path d="M3.5 19a5.5 5.5 0 0 1 11 0" /><circle cx="17" cy="9" r="2.4" /><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5" /></svg>;
-    case 'shield': return <svg {...c}><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6z" /><path d="m8.5 12 2.4 2.4 4.6-4.8" /></svg>;
-    case 'headset': return <svg {...c}><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><rect x="3" y="13" width="4" height="6" rx="1.5" /><rect x="17" y="13" width="4" height="6" rx="1.5" /><path d="M19 19c0 1.7-1.8 2.5-5 2.5" /></svg>;
-    case 'phone': return <svg {...c}><path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L16 14l4 1.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></svg>;
-    case 'mail': return <svg {...c}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 6.5 8.5 7 8.5-7" /></svg>;
     default: return null;
   }
 }
@@ -129,71 +113,29 @@ export default function FaqSection() {
     const mm = gsap.matchMedia(el);
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       const q = gsap.utils.selector(el);
+      const isMobile = window.matchMedia('(max-width: 760px)').matches;
       const st = (t, start = 'top 80%') => ({ trigger: t, start, toggleActions: 'play none none reverse' });
-      gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: st(q('.fq-hero')[0]) })
-        .from(q('.fq-hero__img img'), { autoAlpha: 0, scale: 1.08, duration: 1.3 })
-        .from(q('[data-fq-hero]'), { autoAlpha: 0, y: 22, duration: 0.8, stagger: 0.1 }, '<0.1')
-        .from(q('.fq-help'), { autoAlpha: 0, x: 26, duration: 0.8 }, '<0.3');
-      gsap.from(q('.fq-benefit'), { autoAlpha: 0, y: 24, duration: 0.7, stagger: 0.08, ease: 'power3.out', scrollTrigger: st(q('.fq-benefits')[0], 'top 90%') });
-      gsap.from(q('.fq-cat'), { autoAlpha: 0, x: -16, duration: 0.5, stagger: 0.05, ease: 'power3.out', scrollTrigger: st(q('.fq-main')[0]) });
-      gsap.from(q('.fq-center'), { autoAlpha: 0, y: 24, duration: 0.8, ease: 'power3.out', scrollTrigger: st(q('.fq-main')[0]) });
-      gsap.from(q('.fq-card'), { autoAlpha: 0, y: 30, duration: 0.9, ease: 'power3.out', scrollTrigger: st(q('.fq-main')[0]) });
+      gsap.from(q('.fq-heading'), { autoAlpha: 0, y: 18, duration: 0.7, ease: 'power3.out', scrollTrigger: st(q('.fq-heading')[0]), clearProps: 'transform' });
+      gsap.from(q('.fq-cat'), {
+        autoAlpha: 0,
+        x: isMobile ? 0 : -16,
+        y: isMobile ? 12 : 0,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power3.out',
+        scrollTrigger: st(q('.fq-main')[0]),
+        clearProps: 'transform',
+      });
+      gsap.from(q('.fq-center'), { autoAlpha: 0, y: 24, duration: 0.8, ease: 'power3.out', scrollTrigger: st(q('.fq-main')[0]), clearProps: 'transform' });
     });
     return () => mm.revert();
   }, []);
 
   return (
     <section id="faq" className="fq" ref={ref} aria-labelledby="fq-title">
-      <svg className="fq-defs" width="0" height="0" aria-hidden="true" focusable="false">
-        <defs>
-          <clipPath id="fq-clip-hero" clipPathUnits="objectBoundingBox">
-            <path d="M0.12,0 H1 V1 H0.02 C0.1,0.86 0.16,0.7 0.14,0.5 C0.12,0.32 0.08,0.14 0.12,0 Z" />
-          </clipPath>
-          <clipPath id="fq-clip-hero-rim" clipPathUnits="objectBoundingBox">
-            <path d="M0.112,0 H1 V1 H0.008 C0.088,0.86 0.148,0.7 0.128,0.5 C0.108,0.32 0.068,0.14 0.112,0 Z" />
-          </clipPath>
-          <clipPath id="fq-clip-card-img" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 H1 V0.62 C0.86,0.72 0.66,0.8 0.42,0.84 C0.24,0.87 0.1,0.93 0,1 Z" />
-          </clipPath>
-          <clipPath id="fq-clip-card-rim" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 H1 V0.66 C0.86,0.76 0.66,0.84 0.42,0.88 C0.24,0.91 0.1,0.97 0,1.04 Z" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      {/* ---------- Hero ---------- */}
-      <div className="fq-hero">
-        <div className="fq-hero__media" aria-hidden="true">
-          <div className="fq-hero__rim" />
-          <div className="fq-hero__img"><img src={imgHero} alt="" loading="lazy" decoding="async" /></div>
-        </div>
-        <div className="fq-hero__content">
-          <p className="fq-eyebrow" data-fq-hero>FAQ<span aria-hidden="true" /></p>
-          <h2 id="fq-title" className="fq-hero__title" data-fq-hero>Frequently Asked<br /><span>Questions</span></h2>
-          <p className="fq-hero__text" data-fq-hero>
-            Find quick answers to common questions about our furniture collections, customization, ordering process, shipping and more.
-            If you need further assistance, our team is always here to help.
-          </p>
-        </div>
-        <aside className="fq-help">
-          <span className="fq-help__icon"><Icon name="headset" /></span>
-          <div>
-            <h3>Need More Help?</h3>
-            <p>Our team is always ready to assist you with any questions.</p>
-            <a className="fq-btn fq-btn--sm" href="#contact"><span>Contact Support</span><span className="fq-btn__circle"><Icon name="arrow" /></span></a>
-          </div>
-        </aside>
-      </div>
-
-      {/* ---------- Benefits strip ---------- */}
-      <ul className="fq-benefits">
-        {BENEFITS.map((b) => (
-          <li key={b.title} className="fq-benefit">
-            <span className="fq-benefit__icon"><Icon name={b.icon} /></span>
-            <span><strong>{b.title}</strong><span>{b.text}</span></span>
-          </li>
-        ))}
-      </ul>
+      <header className="fq-heading">
+        <h2 id="fq-title">Frequently Asked Questions</h2>
+      </header>
 
       {/* ---------- Main ---------- */}
       <div className="fq-main">
@@ -221,35 +163,8 @@ export default function FaqSection() {
           </ul>
         </div>
 
-        <aside className="fq-card">
-          <div className="fq-card__media" aria-hidden="true">
-            <div className="fq-card__rim" />
-            <div className="fq-card__img"><img src={imgSupport} alt="" loading="lazy" decoding="async" /></div>
-          </div>
-          <div className="fq-card__body">
-            <h3 className="fq-card__title">Still Have <span>Questions?</span></h3>
-            <p>Our team is here to help you with product selection, customization, orders, shipping or any other inquiries.</p>
-            <ul className="fq-card__contact">
-              <li><span className="fq-card__ic"><Icon name="phone" /></span><span><a href={CONTACT.phoneHref}><strong>{CONTACT.phone}</strong></a>{CONTACT.phoneNote}</span></li>
-              <li><span className="fq-card__ic"><Icon name="mail" /></span><span><a href={`mailto:${CONTACT.email}`}><strong>{CONTACT.email}</strong></a>{CONTACT.emailNote}</span></li>
-            </ul>
-            <a className="fq-btn" href="#contact"><span>Contact Us</span><span className="fq-btn__circle"><Icon name="arrow" /></span></a>
-          </div>
-        </aside>
       </div>
 
-      <svg className="fq-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="fq-wave-g" x1="0" x2="1">
-            <stop offset="0" stopColor="#b85a22" stopOpacity="0" />
-            <stop offset="0.2" stopColor="#c87935" />
-            <stop offset="0.5" stopColor="#e6a34a" />
-            <stop offset="0.8" stopColor="#c87935" />
-            <stop offset="1" stopColor="#b85a22" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path d="M0,20 C260,80 520,86 760,62 C1000,38 1220,40 1440,70" fill="none" stroke="url(#fq-wave-g)" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
-      </svg>
     </section>
   );
 }

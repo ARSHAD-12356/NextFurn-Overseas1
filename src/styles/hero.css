@@ -1,8 +1,8 @@
 /* =========================================
-   NextFurn Overseas — Hero Banner
-   Clean, full-width executive office showcase
-   Directly beneath the dark green navbar.
-   No text overlays, no buttons, no badges.
+   NextFurn Overseas — Hero Banner Carousel
+   Full-width showcase directly beneath the navbar
+   Desktop: 1920x800 banner
+   Mobile: 1080x1350 responsive banner
    ========================================= */
 
 .hero-banner {
@@ -11,75 +11,217 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-muted, #fdfbf7);
   line-height: 0;
   border: none;
+  user-select: none;
 }
 
 .hero-banner__image-wrapper {
   position: relative;
   width: 100%;
-  /* Responsive height scaled across screen resolutions */
-  height: clamp(520px, 42vw, 750px);
   overflow: hidden;
+  line-height: 0;
+  animation: hero-banner-fade-in 1050ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes hero-banner-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Carousel Track */
+.hero-banner__track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.95s cubic-bezier(0.25, 1, 0.35, 1);
+  will-change: transform;
+}
+
+/* Carousel Slide */
+.hero-banner__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  position: relative;
+  line-height: 0;
+}
+
+.hero-banner__picture {
+  display: block;
+  width: 100%;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-banner__image {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
+  aspect-ratio: 1920 / 800;
   object-fit: cover;
-  /* Positioned to showcase the executive desk, chair, laptop, accessories, and rug */
-  object-position: center 71%;
-  transform: scale(1);
   user-select: none;
   -webkit-user-drag: none;
+  pointer-events: none;
 }
 
-/* 1920x1080 Viewport: target ~640-660px height */
-@media (min-width: 1720px) {
-  .hero-banner__image-wrapper {
-    height: 650px;
-  }
-  .hero-banner__image {
-    object-position: center 71%;
-  }
+/* Navigation Arrow Buttons */
+.hero-banner__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 34, 25, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.85;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
-/* 1648x928 Viewport: target ~750px height */
-@media (min-width: 1400px) and (max-width: 1719px) {
-  .hero-banner__image-wrapper {
-    height: 750px;
-  }
-  .hero-banner__image {
-    object-position: center 70%;
-  }
+.hero-banner:hover .hero-banner__nav {
+  opacity: 1;
 }
 
-/* Standard laptops and tablets */
-@media (max-width: 1399px) {
-  .hero-banner__image-wrapper {
-    height: clamp(480px, 46vw, 640px);
-  }
-  .hero-banner__image {
-    object-position: center 68%;
-  }
+.hero-banner__nav svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  transition: transform 0.2s ease;
 }
 
+.hero-banner__nav--prev {
+  left: 24px;
+}
+
+.hero-banner__nav--next {
+  right: 24px;
+}
+
+.hero-banner__nav--prev:hover svg {
+  transform: translateX(-2px);
+}
+
+.hero-banner__nav--next:hover svg {
+  transform: translateX(2px);
+}
+
+.hero-banner__nav:hover {
+  background: var(--color-primary, #17382a);
+  border-color: var(--color-accent, #a8693a);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(14, 34, 25, 0.4), 0 0 12px rgba(168, 105, 58, 0.35);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.hero-banner__nav:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.hero-banner__nav:focus-visible {
+  outline: 2px solid var(--color-accent-light, #c8874f);
+  outline-offset: 3px;
+}
+
+/* Dots / Indicators Container */
+.hero-banner__dots {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(14, 34, 25, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}
+
+.hero-banner__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.4, 1);
+}
+
+.hero-banner__dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.hero-banner__dot--active {
+  width: 28px;
+  background: var(--color-accent-light, #c8874f);
+  box-shadow: 0 0 10px rgba(200, 135, 79, 0.6);
+}
+
+.hero-banner__dot:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Mobile responsive banner (1080x1350, 4:5 aspect ratio) */
 @media (max-width: 768px) {
-  .hero-banner__image-wrapper {
-    height: clamp(360px, 56vw, 480px);
-  }
   .hero-banner__image {
-    object-position: center 66%;
+    aspect-ratio: 1080 / 1350;
   }
-}
 
-@media (max-width: 480px) {
-  .hero-banner__image-wrapper {
-    height: clamp(300px, 75vw, 380px);
+  @media (prefers-reduced-motion: reduce) {
+    .hero-banner__image-wrapper {
+      animation: none;
+    }
   }
-  .hero-banner__image {
-    object-position: center 64%;
+
+  .hero-banner__nav {
+    width: 38px;
+    height: 38px;
+    opacity: 0.9;
+  }
+
+  .hero-banner__nav svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero-banner__nav--prev {
+    left: 10px;
+  }
+
+  .hero-banner__nav--next {
+    right: 10px;
+  }
+
+  .hero-banner__dots {
+    bottom: 14px;
+    padding: 5px 10px;
+    gap: 6px;
+  }
+
+  .hero-banner__dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .hero-banner__dot--active {
+    width: 22px;
   }
 }

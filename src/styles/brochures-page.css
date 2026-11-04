@@ -1,0 +1,475 @@
+.brochures-page {
+  width: 100%;
+  background: #fcfaf7;
+  overflow-x: hidden;
+}
+
+.brochures-hero {
+  width: 100%;
+  max-width: 1920px;
+  min-height: clamp(620px, calc(100svh - 142px), 800px);
+  margin: 0 auto;
+  padding: clamp(36px, 4vw, 68px) clamp(28px, 4vw, 72px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  align-items: center;
+  gap: clamp(20px, 3vw, 48px);
+  background: #fcfaf7;
+}
+
+.brochures-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.brochures-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 28px;
+  color: #ad7757;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  line-height: 1;
+}
+
+.brochures-eyebrow__rule {
+  width: 80px;
+  height: 1px;
+  flex: 0 0 auto;
+  background: #b67a55;
+}
+
+.brochures-title {
+  margin: 0 0 18px;
+  color: #06483c;
+  font-size: clamp(40px, 3.6vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.brochures-title > span {
+  display: block;
+}
+
+.brochures-title__accent {
+  color: #a8693a;
+  white-space: nowrap;
+}
+
+.brochures-description {
+  max-width: 540px;
+  margin: 0;
+  color: #747e89;
+  font-size: clamp(16px, 1.15vw, 19px);
+  font-weight: 400;
+  line-height: 1.48;
+}
+
+.brochures-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.brochures-button {
+  min-height: 60px;
+  padding: 0 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1.5px solid #06483c;
+  border-radius: 10px;
+  background: transparent;
+  color: #06483c;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.brochures-button:hover {
+  transform: translateY(-2px);
+}
+
+.brochures-button:focus-visible {
+  outline: 2px solid #a8693a;
+  outline-offset: 4px;
+}
+
+.brochures-button--primary {
+  min-width: 250px;
+  background: #06483c;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(6, 72, 60, 0.16);
+}
+
+.brochures-button--primary:hover {
+  background: #053d33;
+  box-shadow: 0 14px 28px rgba(6, 72, 60, 0.22);
+}
+
+.brochures-button--primary svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  transition: transform 0.2s ease;
+}
+
+.brochures-button--primary:hover svg {
+  transform: translateX(3px);
+}
+
+.brochures-active-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 8px 16px;
+  background: #f4eee7;
+  border-radius: 999px;
+  border: 1px solid rgba(168, 105, 58, 0.2);
+  font-size: 14px;
+  color: #554436;
+}
+
+.brochures-active-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a8693a;
+  box-shadow: 0 0 0 3px rgba(168, 105, 58, 0.2);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.75;
+  }
+}
+
+.brochures-active-pill__label {
+  font-weight: 500;
+  color: #7b6d61;
+}
+
+.brochures-active-pill__name {
+  font-weight: 700;
+  color: #06483c;
+}
+
+/* Showcase layout */
+.brochures-showcase-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brochures-showcase {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: clamp(450px, 52vw, 550px);
+  isolation: isolate;
+}
+
+/* Realistic Ground Shadow */
+.brochures-ground-shadow {
+  position: absolute;
+  bottom: 0.5%;
+  left: 5%;
+  width: 90%;
+  height: 28px;
+  background: radial-gradient(ellipse 65% 100% at 50% 50%, rgba(46, 35, 23, 0.24) 0%, rgba(46, 35, 23, 0.08) 55%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Base Booklet Item - Uniform aspect ratio, completely borderless */
+.brochures-booklet {
+  position: absolute;
+  left: 49%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform, opacity;
+  /* Animate only compositor-friendly properties to prevent layout jitter. */
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.75s ease;
+}
+
+.brochures-booklet:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+.brochures-booklet__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: bottom center;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 14px 18px rgba(49, 39, 27, 0.18));
+}
+
+/* ==========================================================================
+   5 SLOTS FOR CAROUSEL MOTION (Right to Middle to Left)
+   Center is prominent, biggest, and sits at the front.
+   Side booklets are grounded and smaller, never touching the top.
+   ========================================================================== */
+
+/* Slot 0: Center (Front / Middle) - Prominent, largest, closest to viewer */
+.brochures-booklet--slot-center {
+  left: 49%;
+  bottom: 2%;
+  width: 35.5%;
+  height: 94%;
+  z-index: 5;
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+/* Slot 1: Mid Right - Moving from Right towards Middle */
+.brochures-booklet--slot-mid-right {
+  bottom: 2%;
+  width: 35.5%;
+  height: 94%;
+  z-index: 4;
+  transform: translateX(calc(-50% + 59.15%)) scale(0.85);
+  opacity: 0.96;
+}
+
+/* Slot 2: Far Right - Outer right position */
+.brochures-booklet--slot-far-right {
+  bottom: 2%;
+  width: 35.5%;
+  height: 94%;
+  z-index: 2;
+  transform: translateX(calc(-50% + 107.04%)) scale(0.72);
+  opacity: 0.88;
+}
+
+/* Slot 3: Far Left - Outer left position */
+.brochures-booklet--slot-far-left {
+  bottom: 2%;
+  width: 35.5%;
+  height: 94%;
+  z-index: 2;
+  transform: translateX(calc(-50% - 104.23%)) scale(0.72);
+  opacity: 0.88;
+}
+
+/* Slot 4: Mid Left - Moving from Middle towards Left */
+.brochures-booklet--slot-mid-left {
+  bottom: 2%;
+  width: 35.5%;
+  height: 94%;
+  z-index: 4;
+  transform: translateX(calc(-50% - 59.15%)) scale(0.85);
+  opacity: 0.96;
+}
+
+/* Hover effect on booklets */
+.brochures-booklet:hover {
+  filter: brightness(1.04);
+}
+
+/* Category Tabs */
+.brochures-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 6px;
+  background: rgba(6, 72, 60, 0.05);
+  border: 1px solid rgba(6, 72, 60, 0.09);
+  border-radius: 999px;
+  max-width: 95%;
+}
+
+.brochures-tab-btn {
+  padding: 7px 16px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #55605d;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.brochures-tab-btn:hover {
+  color: #06483c;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.brochures-tab-btn--active {
+  background: #06483c !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(6, 72, 60, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) and (min-width: 1025px) {
+  .brochures-hero {
+    padding-inline: 42px;
+    gap: 28px;
+  }
+  .brochures-actions {
+    gap: 14px;
+  }
+  .brochures-button {
+    min-height: 56px;
+    padding-inline: 26px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .brochures-hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 48px 32px 42px;
+    gap: 36px;
+    min-height: auto;
+  }
+  .brochures-copy {
+    /* Fixed to the column: otherwise the column sizes to its nowrap content and shifts as the active catalogue name changes. */
+    width: 100%;
+    min-width: 0;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .brochures-eyebrow {
+    justify-content: center;
+  }
+  .brochures-description {
+    max-width: 620px;
+  }
+  .brochures-actions {
+    justify-content: center;
+  }
+  .brochures-showcase {
+    max-width: 680px;
+    height: clamp(390px, 58vw, 490px);
+  }
+}
+
+@media (max-width: 640px) {
+  .brochures-hero {
+    padding: 36px 18px 30px;
+    gap: 28px;
+  }
+  .brochures-eyebrow {
+    margin-bottom: 20px;
+    font-size: 11px;
+    gap: 12px;
+  }
+  .brochures-eyebrow__rule {
+    width: 50px;
+  }
+  .brochures-title {
+    font-size: clamp(24px, 8.8vw, 44px);
+    margin-bottom: 14px;
+  }
+  .brochures-description {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .brochures-actions {
+    width: 100%;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .brochures-button {
+    min-width: 0;
+    width: 100%;
+    min-height: 52px;
+    font-size: 15px;
+  }
+  .brochures-active-pill {
+    margin-top: 20px;
+    font-size: 13px;
+    padding: 6px 14px;
+    width: min(100%, 340px);
+    min-height: 36px;
+    box-sizing: border-box;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  .brochures-active-pill__label {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .brochures-active-pill__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .brochures-showcase {
+    height: clamp(300px, 78vw, 370px);
+  }
+  .brochures-tabs {
+    gap: 4px;
+    padding: 4px;
+  }
+  .brochures-tab-btn {
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+}
+
+/* The longest catalogue name no longer fits beside the label. */
+@media (max-width: 345px) {
+  .brochures-active-pill__label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brochures-button,
+  .brochures-booklet,
+  .brochures-tab-btn {
+    transition-duration: 1ms !important;
+  }
+  .brochures-active-pill__dot {
+    animation: none !important;
+  }
+}

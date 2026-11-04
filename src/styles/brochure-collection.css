@@ -1,0 +1,387 @@
+/* ==========================================================================
+   BROCHURE COLLECTION SECTION
+   Exact recreation of the reference design
+   ========================================================================== */
+
+.bc-section {
+  width: 100%;
+  background: #fcfaf7;
+  padding: clamp(50px, 5.5vw, 90px) clamp(24px, 4vw, 72px) clamp(60px, 6vw, 110px);
+  position: relative;
+  overflow: visible;
+}
+
+.bc-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ================= HEADER ================= */
+.bc-header {
+  text-align: center;
+  margin-bottom: clamp(48px, 5vw, 72px);
+}
+
+.bc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 16px;
+  color: #ad7757;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  line-height: 1;
+}
+
+.bc-eyebrow__line {
+  width: 54px;
+  height: 1px;
+  background: #b67a55;
+  display: inline-block;
+}
+
+.bc-title {
+  margin: 0;
+  color: #06483c;
+  font-size: clamp(36px, 3.8vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.bc-title__accent {
+  color: #a8693a;
+}
+
+/* ================= 3-COLUMN ASYMMETRIC GRID ================= */
+.bc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(20px, 2.4vw, 36px);
+  align-items: center;
+}
+
+.bc-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.bc-col--left,
+.bc-col--right {
+  gap: clamp(34px, 3.8vw, 52px);
+}
+
+.bc-col--center {
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= COMMON CARD BASE ================= */
+.bc-card {
+  position: relative;
+  border-radius: 26px;
+  padding: 24px 28px 24px 22px;
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 16px 36px rgba(45, 34, 22, 0.07);
+  transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.32s ease;
+  overflow: visible;
+  min-height: 200px;
+}
+
+.bc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 44px rgba(45, 34, 22, 0.12);
+}
+
+/* 3D Book Container overlapping outside card at top & left */
+.bc-card__book-container {
+  position: relative;
+  width: 145px;
+  height: 220px;
+  margin-top: -36px;
+  margin-bottom: -16px;
+  margin-left: -12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 2;
+}
+
+.bc-card__book-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 14px 18px rgba(35, 25, 15, 0.22));
+  transition: transform 0.32s ease, filter 0.32s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.bc-card:hover .bc-card__book-img {
+  transform: translateY(-4px) scale(1.02);
+  filter: drop-shadow(0 20px 24px rgba(35, 25, 15, 0.28));
+}
+
+/* Card Content (Right Side) */
+.bc-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  z-index: 2;
+}
+
+/* Badge Icon */
+.bc-card__badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(25, 20, 15, 0.08);
+  flex-shrink: 0;
+}
+
+.bc-card__badge svg {
+  width: 24px;
+  height: 24px;
+}
+
+.bc-card__badge--office svg {
+  color: #06483c;
+}
+
+.bc-card__badge--brown svg {
+  color: #925830;
+}
+
+.bc-card__badge--green svg {
+  color: #06483c;
+}
+
+/* Card Titles */
+.bc-card__title {
+  margin: 0;
+  font-size: clamp(20px, 1.45vw, 23px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.bc-card__title--white {
+  color: #ffffff;
+}
+
+.bc-card__title--green {
+  color: #06483c;
+}
+
+/* ================= CARD 1: OFFICE (Top Left) ================= */
+.bc-card--office {
+  background: #06483c;
+  position: relative;
+  overflow: visible;
+}
+
+.bc-card__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  background: radial-gradient(circle at 18% 18%, rgba(2, 43, 35, 0.75) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+/* ================= CARD 2: EDUCATIONAL (Bottom Left) ================= */
+.bc-card--educational {
+  background: #f7efe4;
+}
+
+/* ================= CARD 4: HEALTHCARE (Top Right) ================= */
+.bc-card--healthcare {
+  background: #e7f2ed;
+}
+
+/* ================= CARD 5: SOFA & LOUNGE (Bottom Right) ================= */
+.bc-card--sofa {
+  background: #fbf1e6;
+}
+
+/* ==========================================================================
+   CARD 3: MAIN CATALOGUE (Center - Dominant Focal Point)
+   ========================================================================== */
+.bc-card--main {
+  width: 100%;
+  max-width: 410px;
+  border-radius: 32px;
+  background: #c68e57;
+  padding: 34px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 24px 52px rgba(110, 68, 30, 0.22);
+  min-height: 480px;
+  overflow: visible;
+  position: relative;
+}
+
+.bc-card--main:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px rgba(110, 68, 30, 0.28);
+}
+
+.bc-card__main-card-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  background: linear-gradient(180deg, #c9935f 0%, #b8804c 100%);
+  pointer-events: none;
+}
+
+.bc-card__main-book-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 310px;
+  height: 380px;
+  margin-top: -24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bc-card__main-book-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 26px rgba(45, 25, 10, 0.32));
+  transition: transform 0.35s ease, filter 0.35s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.bc-card--main:hover .bc-card__main-book-img {
+  transform: translateY(-4px) scale(1.02);
+  filter: drop-shadow(0 26px 32px rgba(45, 25, 10, 0.38));
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+
+/* Medium Desktops & Tablets Landscape */
+@media (max-width: 1200px) and (min-width: 901px) {
+  .bc-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr) minmax(0, 1fr);
+    gap: 18px;
+  }
+  .bc-card {
+    padding: 20px 20px 20px 16px;
+    grid-template-columns: 125px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .bc-card__book-container {
+    width: 125px;
+    height: 190px;
+    margin-top: -28px;
+  }
+  .bc-card__title {
+    font-size: 19px;
+  }
+  .bc-card--main {
+    min-height: 440px;
+    padding: 28px 18px 22px;
+  }
+  .bc-card__main-book-wrap {
+    height: 330px;
+  }
+}
+
+/* Tablets Portrait (<= 900px) */
+@media (max-width: 900px) {
+  .bc-section {
+    padding-inline: 20px;
+  }
+  .bc-grid {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+    margin: 0 auto;
+    gap: 32px;
+  }
+  .bc-col--left,
+  .bc-col--right {
+    gap: 28px;
+  }
+  .bc-col--center {
+    order: -1; /* Place Main Catalogue at top on smaller screens */
+    margin-bottom: 8px;
+  }
+  .bc-card--main {
+    max-width: 440px;
+    min-height: 460px;
+  }
+  .bc-card {
+    grid-template-columns: 140px minmax(0, 1fr);
+    padding: 24px;
+  }
+}
+
+/* Mobile Devices (<= 600px) */
+@media (max-width: 600px) {
+  .bc-section {
+    padding-top: 40px;
+    padding-bottom: 50px;
+  }
+  .bc-header {
+    margin-bottom: 36px;
+  }
+  .bc-eyebrow {
+    gap: 12px;
+    font-size: 11px;
+  }
+  .bc-eyebrow__line {
+    width: 36px;
+  }
+  .bc-card {
+    grid-template-columns: 110px minmax(0, 1fr);
+    padding: 18px 16px;
+    border-radius: 20px;
+    gap: 14px;
+    min-height: auto;
+  }
+  .bc-card__book-container {
+    width: 110px;
+    height: 165px;
+    margin-top: -24px;
+    margin-left: -6px;
+  }
+  .bc-card__badge {
+    width: 40px;
+    height: 40px;
+  }
+  .bc-card__badge svg {
+    width: 20px;
+    height: 20px;
+  }
+  .bc-card__title {
+    font-size: 17px;
+  }
+  .bc-card--main {
+    padding: 26px 16px 20px;
+    min-height: 400px;
+    border-radius: 24px;
+  }
+  .bc-card__main-book-wrap {
+    height: 280px;
+    margin-top: -16px;
+  }
+}

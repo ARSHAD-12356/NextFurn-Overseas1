@@ -3,6 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  publicDir: 'public_clean',
+  build: {
+    outDir: 'release-dist',
+    emptyOutDir: false,
+  },
   server: {
     port: 3001,
     watch: {

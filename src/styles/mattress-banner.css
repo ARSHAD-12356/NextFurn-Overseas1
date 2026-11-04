@@ -1,0 +1,32 @@
+.mattress-banner {
+  width: 100%;
+  padding: 0 var(--gutter, 20px);
+  background: #fff;
+}
+
+.mattress-banner a {
+  display: block;
+}
+
+.mattress-banner picture {
+  display: block;
+  width: 100%;
+  max-width: 1660px;
+  margin: 0 auto;
+}
+
+.mattress-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .mattress-banner {
+    padding: 0;
+  }
+}
+
+.explore-mattresses {
+  padding-bottom: 40px;
+}

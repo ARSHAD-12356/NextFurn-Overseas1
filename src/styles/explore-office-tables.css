@@ -1,0 +1,152 @@
+.explore-office-tables {
+  padding: 32px var(--gutter, 20px) 48px;
+  background: #FAF7F0;
+  color: #141414;
+}
+
+.explore-office-tables__inner {
+  width: 100%;
+  max-width: 1660px;
+  margin: 0 auto;
+}
+
+.explore-office-tables__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.explore-office-tables__heading-row h2 {
+  margin: 0;
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.explore-office-tables__view-all {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  color: #e9682c;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.explore-office-tables__view-all svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.explore-office-tables__view-all:hover {
+  color: #d95319;
+}
+
+.explore-office-tables__rail {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.explore-office-tables__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.explore-office-tables__item {
+  flex: 0 0 clamp(280px, calc((100% - 60px) / 4), 410px);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.explore-office-tables__card {
+  display: block;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.explore-office-tables__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.explore-office-tables__details {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 11px 2px 0;
+}
+
+.explore-office-tables__name {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #141414;
+}
+
+.explore-office-tables__subtitle {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.explore-office-tables__price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #141414;
+}
+
+@media (max-width: 640px) {
+  .explore-office-tables {
+    padding: 26px 16px 38px;
+  }
+
+  .explore-office-tables__heading-row {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .explore-office-tables__heading-row h2 {
+    font-size: 23px;
+  }
+
+  .explore-office-tables__view-all {
+    gap: 4px;
+    font-size: 16px;
+  }
+
+  .explore-office-tables__name {
+    font-size: 17px;
+  }
+
+  .explore-office-tables__rail {
+    gap: 12px;
+    margin-right: -16px;
+    padding-right: 16px;
+  }
+
+  .explore-office-tables__item {
+    flex-basis: min(84vw, 360px);
+  }
+}
